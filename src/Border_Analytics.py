@@ -4,7 +4,8 @@ import csv
 from Date import Date
 from operator import itemgetter
 
-def testCSVDictionary(csvFile):
+def main():
+    csvFile = sys.argv[1]
     importantValues = []
     depth = 3
     with open(csvFile) as file:
@@ -50,3 +51,6 @@ def testCSVDictionary(csvFile):
 
     for line in reversed(endList):
         print(line)
+
+if __name__ == '__main__':
+    main()
