@@ -115,6 +115,7 @@ def main():
     for row in endList:
         testList = row[0:depth]
         prevDate = getPrevMonthDate(testList[-2])
+        testList[-2] = prevDate
         endIndex = endList.index(row)
         runningSum = 0
         numPrevMonths = 0
