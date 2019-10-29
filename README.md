@@ -1,4 +1,4 @@
-Dear Insight Team,
+Dear Insight Team:
   Thanks for letting me do this challenge. It's been a blast, and I've learned
   a lot! Throughout the challenge, I tried different data structures, algorithms,
   and approaches, only to find a better one when I was about 3/4 done. Finally, though,
