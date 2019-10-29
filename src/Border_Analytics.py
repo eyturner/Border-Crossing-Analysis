@@ -113,12 +113,9 @@ def main():
     # where the same method of crossing at the same border has occurred.
     endList.sort(key = itemgetter(1,3,2,0))
     for row in endList:
-        border = row[0]
-        date = row[1]
-        measure = row[2]
-        prevDate = getPrevMonthDate(date)
+        testList = row[0:depth]
+        prevDate = getPrevMonthDate(testList[-2])
         endIndex = endList.index(row)
-        testList = [border, prevDate, measure]
         runningSum = 0
         numPrevMonths = 0
         foundPrev = False
