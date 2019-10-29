@@ -125,7 +125,7 @@ def main():
 
     for line in reversed(endList):
         line.pop()
-
+    dataTypes.append("Average")
     endList.append(dataTypes)
     with open(outputFile,"w") as outFile:
         writer = csv.writer(outFile)
