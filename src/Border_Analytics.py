@@ -5,25 +5,29 @@ from Date import Date
 from operator import itemgetter
 
 def main():
-    csvFile = sys.argv[1]
+    inputFile = argv[1]
+    outputFile = argv[2]
+
     importantValues = []
-    depth = 3
-    with open(csvFile) as file:
+    startCol = 3
+    with open(inputFile) as file:
         reader = csv.reader(file, delimiter=",")
         lineCount = 0
         for row in list(reader):
-            importantValues.append(row[depth:])
+            importantValues.append(row[startCol:])
             lineCount+= 1
 
     outputDict = {}
     endList = []
+    dataTypes = importantValues[0]
+    depth = len(row) - startCol - 1
 
     for bigList in importantValues[1:]:
         dataDict = listToDict(bigList)
         currentDict = dataDict
-        updateDict(outputDict, dataDict, 3)
+        updateDict(outputDict, dataDict, depth)
         #print("result is:",outputDict,"\n")
-    dictToLists(outputDict, depth, [], endList)
+    dictToLists(outputDict, startCol, [], endList)
     endList.sort(key = itemgetter(1,3,2,0))
     for row in endList:
         border = row[0]
@@ -49,8 +53,15 @@ def main():
             row.append(0)
             row.append(0)
 
+
     for line in reversed(endList):
-        print(line)
+        line.pop()
+
+    endList.append(dataTypes)
+    with open(outputFile,"w") as outFile:
+        writer = csv.writer(outFile)
+        writer.writerows(reversed(endList))
+
 
 if __name__ == '__main__':
     main()
