@@ -3,7 +3,43 @@ import sys
 import csv
 from Date import Date
 from operator import itemgetter
-import DictList_Functions
+
+def dictToLists(dict, depth, localList, bigList):
+    if(depth == 0):
+        #print("Hit the bottom!")
+        integer = [int(dict)]
+        localList.extend(integer)
+        bigList.append(localList[:])
+        #print('newest bigList item:',bigList[-1])
+        localList.pop()
+        return localList
+    else:
+        for key in dict:
+            #print("Current Key:",key)
+            if(depth == 2):
+                localList.append(Date(key))
+            else:
+                localList.append(key)
+            localList = dictToLists(dict[key], depth - 1, localList, bigList)
+            localList.pop()
+            #print('localList is now',localList)
+    return localList
+
+def getPrevMonthDate(date):
+    if(date.getMonth() == 1):
+        prevMonth = 12
+        prevYear = date.getYear() - 1
+    else:
+        prevMonth = date.getMonth() - 1
+        prevYear = date.getYear()
+    if(prevMonth < 10):
+        monthStr = '0'+str(prevMonth)
+    else:
+        monthStr = str(prevMonth)
+    yearStr = str(prevYear)
+    dayStr = '0'+str(date.getDay())
+    timeStr = date.getTime()
+    return Date(monthStr + '/' + dayStr + '/'+ yearStr + ' '+ timeStr)
 
 def listToDict(list):
     newDict = {}

@@ -17,6 +17,9 @@ class Date:
     def getYear(self):
         return self.year
 
+    def getTime(self):
+        return self.time
+
     def __str__(self):
         if(self.month < 10):
             monthStr = '0'+str(self.month)
@@ -32,6 +35,8 @@ class Date:
         return str(self)
 
     def __eq__(self, other):
+        if(not isinstance(other, Date)):
+            return False
         if(self.month == other.getMonth()):
             if(self.day == other.getDay()):
                 if(self.year == other.getYear()):
@@ -61,19 +66,3 @@ class Date:
         if(self == other):
             return False
         return not(self < other)
-
-def getPrevMonthDate(date):
-    if(date.getMonth() == 1):
-        prevMonth = 12
-        prevYear = date.getYear() - 1
-    else:
-        prevMonth = date.getMonth() - 1
-        prevYear = date.getYear()
-    if(prevMonth < 10):
-        monthStr = '0'+str(prevMonth)
-    else:
-        monthStr = str(prevMonth)
-    yearStr = str(prevYear)
-    dayStr = '0'+str(date.getDay())
-    timeStr = date.getTime()
-    return Date(monthStr + '/' + dayStr + '/'+ yearStr + ' '+ timeStr)
