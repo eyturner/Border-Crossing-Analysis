@@ -22,7 +22,7 @@ def dictToLists(dict, depth, localList, endList):
                 localList.append(Date(key))
             else:
                 localList.append(key)
-            localList = dictToLists(dict[key], depth - 1, localList, bigList)
+            localList = dictToLists(dict[key], depth - 1, localList, endList)
             localList.pop()
     return localList
 
