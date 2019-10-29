@@ -63,7 +63,8 @@ def listToDict(list):
 # Given out dictionary created from the list of data, updateDict adds values for
 # any dictionary entries with same Border, Date, and Measure and updates value to
 # reflect the sum for each Border,Date,Measure
-# Ex: {Border:{Date:{Measure:value1} Date:{value2}}} -->  {Border:{Date:{Measure:value1 + value2}
+# Ex: {Border:{Date:{Measure:value1, Measure: value2}}}
+# -->{Border:{Date:{Measure:value1 + value2}}}
 def updateDict(dict, newDict, depth):
     if(depth == 0):
         ints = int(dict) + int(newDict)
@@ -99,8 +100,8 @@ def main():
     endList = []
     dataTypes = importantValues[0]
 
-    # Now creating the "endList" whcih will contain all forms of border crossing
-    # for the entire data set
+    # Now creating the dictionary that will contain all our data combined and the
+    # "endList" whcih will contain all forms of border crossing for the entire data set
     for bigList in importantValues[1:]:
         dataDict = listToDict(bigList)
         currentDict = dataDict
