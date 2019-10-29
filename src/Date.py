@@ -77,9 +77,3 @@ def getPrevMonthDate(date):
     dayStr = '0'+str(date.getDay())
     timeStr = date.getTime()
     return Date(monthStr + '/' + dayStr + '/'+ yearStr + ' '+ timeStr)
-
-
-def dateTest():
-    newDate = Date('10/10/2019 12:00:00 AM')
-    secondDate = Date('10/10/2019 12:00:00 AM')
-    print(newDate > secondDate)
