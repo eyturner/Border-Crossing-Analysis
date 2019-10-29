@@ -10,7 +10,7 @@ Dear Insight Team,
 2. Transfer list to dictionary to sum up overlapping values (and for easy access later).
 3. From dictionary, create a new list with all of the input data consolidated.
 4. For each item in the dictionary, add two new items to their corresponding list:
-  a. A running average (needed for output file later)
-  b. A counter for how many times we've seen this kind of border crossing at this border previously, (needed for updating running average)
+a. A running average (needed for output file later)
+b. A counter for how many times we've seen this kind of border crossing at this border previously, (needed for updating running average)
 5. Get rid of the counter for each border crossing datum
 6. Output our results to the output CSV!
