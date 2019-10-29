@@ -4,27 +4,31 @@ import csv
 from Date import Date
 from operator import itemgetter
 
-def dictToLists(dict, depth, localList, bigList):
+# Takes a dictionary, the "depth" of the dictionary: the number of dictionaries/
+# subdictionaries in the dictionary, a localList which is the list that we will
+# populate and manipulate within this local function, And an endList which is
+# what will be modified back in the main function. dictToLists results in a list
+# that contains every possible path of the original dictionary.
+def dictToLists(dict, depth, localList, endList):
     if(depth == 0):
-        #print("Hit the bottom!")
         integer = [int(dict)]
         localList.extend(integer)
-        bigList.append(localList[:])
-        #print('newest bigList item:',bigList[-1])
+        endList.append(localList[:])
         localList.pop()
         return localList
     else:
         for key in dict:
-            #print("Current Key:",key)
             if(depth == 2):
                 localList.append(Date(key))
             else:
                 localList.append(key)
             localList = dictToLists(dict[key], depth - 1, localList, bigList)
             localList.pop()
-            #print('localList is now',localList)
     return localList
 
+
+# returns a Date object of the previous month of the date given.
+# Ex: date = 02/01/2000, getPrevMonthDate(date) = 01/01/2000
 def getPrevMonthDate(date):
     if(date.getMonth() == 1):
         prevMonth = 12
@@ -41,6 +45,9 @@ def getPrevMonthDate(date):
     timeStr = date.getTime()
     return Date(monthStr + '/' + dayStr + '/'+ yearStr + ' '+ timeStr)
 
+# Takes the list of data that we care about, and makes each index a dictionary
+# containing the subsequent indicies as more dictionaries.
+# Ex: list = [key1,key2,key3,key], listToDict(list) = {key1:{key2:{key3:{key4}}}
 def listToDict(list):
     newDict = {}
     lastDict = {}
@@ -53,9 +60,11 @@ def listToDict(list):
             lastDict = item
     return newDict
 
+# Given out dictionary created from the list of data, updateDict adds values for
+# any dictionary entries with same Border, Date, and Measure and updates value to
+# reflect the sum for each Border,Date,Measure
+# Ex: {Border:{Date:{Measure:value1} Date:{value2}}} -->  {Border:{Date:{Measure:value1 + value2}
 def updateDict(dict, newDict, depth):
-    # print('depth is now:', depth)
-    # print('dict is:',dict,'newDict is:', newDict)
     if(depth == 0):
         ints = int(dict) + int(newDict)
         return ints
@@ -63,11 +72,9 @@ def updateDict(dict, newDict, depth):
         for key in newDict:
             if key in dict:
                 dict[key] = (updateDict(dict[key], newDict[key], depth - 1))
-                #print('after update with key, dict is:', dict)
                 return dict
             else:
                 dict.update(newDict)
-                #print('after update w/out key, dict is:', dict)
                 return dict
 
 
@@ -75,6 +82,7 @@ def main():
     inputFile = sys.argv[1]
     outputFile = sys.argv[2]
 
+    #importantValues will contain the data subset that we are interested in.
     importantValues = []
     with open(inputFile) as file:
         reader = csv.reader(file, delimiter=",")
@@ -91,12 +99,17 @@ def main():
     endList = []
     dataTypes = importantValues[0]
 
+    # Now creating the "endList" whcih will contain all forms of border crossing
+    # for the entire data set
     for bigList in importantValues[1:]:
         dataDict = listToDict(bigList)
         currentDict = dataDict
         updateDict(outputDict, dataDict, depth)
-        #print("result is:",outputDict,"\n")
     dictToLists(outputDict, borderIndex, [], endList)
+
+    # After sorting the "endList" in the manner requested, we will then add two
+    # values to each row. The running average and the previous number of months
+    # where the same method of crossing at the same border has occurred.
     endList.sort(key = itemgetter(1,3,2,0))
     for row in endList:
         border = row[0]
@@ -115,14 +128,15 @@ def main():
                 numPrevMonths = prevRow[-1]
                 runningSum = prevRow[-2]*numPrevMonths
                 row.append(round((oldValue + runningSum)/(numPrevMonths + 1)+0.5))
-                #print("RUNNING AVG:", round((oldValue + runningSum)/(numPrevMonths+1) + 0.5))
                 row.append(numPrevMonths + 1)
                 break
         if(not foundPrev):
             row.append(0)
             row.append(0)
 
-
+    # Now getting ready to print to CSV. First we get rid of the count of months
+    # from the endList. Then we add the data types back in, adding a column to include
+    # "Average". And finally writing the whole thing to the output file.
     for line in reversed(endList):
         line.pop()
     dataTypes.append("Average")
