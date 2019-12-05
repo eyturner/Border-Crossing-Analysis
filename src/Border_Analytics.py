@@ -104,7 +104,6 @@ def main():
     # "endList" whcih will contain all forms of border crossing for the entire data set
     for bigList in importantValues[1:]:
         dataDict = listToDict(bigList)
-        currentDict = dataDict
         updateDict(outputDict, dataDict, depth)
     dictToLists(outputDict, borderIndex, [], endList)
 
