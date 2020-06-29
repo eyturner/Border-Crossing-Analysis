@@ -1,8 +1,8 @@
 Throughout the challenge, I tried different data structures, algorithms,
   and approaches, only to find a better one when I was about 3/4 done. Finally, though,
-  I was able to find an approach, set of structures, and algorithm that will
+  I was able to find an approach, set of structures and algorithms that would
   allow me to process the full data set before the heat death of the universe
-  (in fact, I believe it does so in under a minute!) Anyway, here is my final approach:
+  (in fact, I believe it does so in under a minute!) Here is my final approach:
 
 1. Get data of interest from input CSV file and transfer that to a list object.
 
